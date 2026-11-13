@@ -2,7 +2,7 @@
 window.STOREFRONT_CONFIG = {
   "productTitle": "Full-Stack Indie Hacker & Bounty Automation Starter Kit (v1.0)",
   "version": "1.0.0",
-  "buildTimestamp": "2026-11-13T01:30:45Z",
+  "buildTimestamp": "2026-11-13T01:45:31Z",
   "zipFilename": "IndieHacker-Automation-Kit-v1.0.zip",
   "creator": {
     "fullName": "Dang Khoi",
