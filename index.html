@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dang Khoi (@khoizsw2007) — DevPulse AI &amp; Indie Hacker Hub</title>
+  <meta
+    name="description"
+    content="Unified portal for Dang Khoi (@khoizsw2007): DevPulse AI SaaS MVP for grant & hackathon reviewers, Indie Hacker Automation Kit storefront (VietQR, Gumroad, Ko-fi), and direct kit package download."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #070b14;
+      --surface: rgba(17, 24, 39, 0.82);
+      --surface-solid: #0f172a;
+      --border: rgba(148, 163, 184, 0.16);
+      --border-strong: rgba(99, 102, 241, 0.45);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --indigo: #6366f1;
+      --indigo-bright: #818cf8;
+      --emerald: #10b981;
+      --emerald-bright: #34d399;
+      --sky: #38bdf8;
+      --amber: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(99, 102, 241, 0.22) 0%, transparent 42%),
+        radial-gradient(circle at 88% 18%, rgba(16, 185, 129, 0.16) 0%, transparent 38%),
+        radial-gradient(circle at 50% 90%, rgba(56, 189, 248, 0.10) 0%, transparent 45%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Top Nav */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(14px);
+      background: rgba(7, 11, 20, 0.78);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 68px;
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--indigo), var(--emerald));
+      font-size: 1.1rem;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+    }
+
+    .brand-sub {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+    }
+
+    .nav-pill:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border);
+    }
+
+    .nav-pill.primary {
+      color: #fff;
+      background: rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.45);
+    }
+
+    .nav-pill.primary:hover {
+      background: rgba(99, 102, 241, 0.35);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 64px 0 36px;
+      text-align: center;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.32);
+      color: var(--emerald-bright);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald-bright);
+      box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.2);
+    }
+
+    .hero h1 {
+      margin: 20px auto 16px;
+      max-width: 840px;
+      font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(120deg, #a5b4fc 0%, #38bdf8 45%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      margin: 0 auto;
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-indigo {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border-color: rgba(129, 140, 248, 0.5);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: rgba(52, 211, 153, 0.45);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(16, 185, 129, 0.28);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(148, 163, 184, 0.35);
+    }
+
+    /* Cards Grid */
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin: 36px 0 42px;
+    }
+
+    @media (max-width: 960px) {
+      .hub-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 26px;
+      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      align-self: flex-start;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .badge-indigo {
+      background: rgba(99, 102, 241, 0.16);
+      color: var(--indigo-bright);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+    }
+
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald-bright);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .badge-amber {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .card h2 {
+      margin: 16px 0 10px;
+      font-size: 1.32rem;
+      letter-spacing: -0.015em;
+    }
+
+    .card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 22px;
+      display: grid;
+      gap: 9px;
+      font-size: 0.89rem;
+      color: #cbd5e1;
+    }
+
+    .feature-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .feature-list .check {
+      color: var(--emerald-bright);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .card-meta {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .route-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .route-hint code {
+      color: var(--sky);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* Info Strip */
+    .info-panel {
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 820px) {
+      .info-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-panel h3 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+    }
+
+    .info-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .kv-grid {
+      display: grid;
+      gap: 10px;
+      font-size: 0.88rem;
+    }
+
+    .kv-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+    }
+
+    .kv-label {
+      color: var(--muted);
+    }
+
+    .kv-value {
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0 36px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="./" class="brand">
+        <span class="brand-mark" aria-hidden="true">⚡</span>
+        <span>
+          Dang Khoi <span class="mono" style="color: var(--indigo-bright); font-weight: 500;">@khoizsw2007</span>
+          <span class="brand-sub">DevPulse AI &amp; Indie Hacker Hub</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary portal links">
+        <a class="nav-pill primary" href="./mvp/">DevPulse AI MVP</a>
+        <a class="nav-pill" href="./store/">Automation Kit Store</a>
+        <a class="nav-pill" href="./downloads/IndieHacker-Automation-Kit-v1.0.zip" download>Download ZIP</a>
+        <a class="nav-pill" href="https://github.com/khoizsw2007/devpulse-copilot" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <span class="status-chip">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        Live Static Portal · Zero Backend Required
+      </span>
+      <h1>
+        <span class="gradient-text">DevPulse AI</span> &amp; Indie Hacker Hub
+      </h1>
+      <p>
+        Built by <strong>Dang Khoi</strong> (<span class="mono">@khoizsw2007</span>). Explore the
+        browser-native DevPulse AI SaaS MVP for grant &amp; hackathon reviewers, browse the
+        Indie Hacker Automation Kit storefront, or inspect the packaged release directly.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-indigo" href="./mvp/">⚡ Launch DevPulse AI MVP</a>
+        <a class="btn btn-emerald" href="./store/">🛒 Open Automation Kit Storefront</a>
+        <a class="btn btn-ghost" href="./downloads/IndieHacker-Automation-Kit-v1.0.zip" download>📦 Download Kit v1.0 (.zip)</a>
+      </div>
+    </section>
+
+    <section class="hub-grid" aria-label="Portal Destinations">
+      <!-- Card 1: DevPulse AI MVP -->
+      <article class="card">
+        <span class="card-badge badge-indigo">Grant &amp; Hackathon Demo</span>
+        <h2>DevPulse AI SaaS MVP</h2>
+        <p>
+          Client-side open-source bounty &amp; grant intelligence hub powered by live GitHub REST API v3 telemetry.
+        </p>
+        <ul class="feature-list">
+          <li><span class="check">✓</span><span>Real-time GitHub repo health scoring &amp; issue triage</span></li>
+          <li><span class="check">✓</span><span>Interactive Grant Readiness Calculator ($25k+ mapped programs)</span></li>
+          <li><span class="check">✓</span><span>100% static HTML/CSS/JS — zero server or API keys required</span></li>
+        </ul>
+        <div class="card-meta">
+          <div class="route-hint">
+            <span>Route</span>
+            <code class="mono">./mvp/</code>
+          </div>
+          <a class="btn btn-indigo" href="./mvp/">Open DevPulse AI MVP →</a>
+        </div>
+      </article>
+
+      <!-- Card 2: Storefront -->
+      <article class="card">
+        <span class="card-badge badge-emerald">Digital Product Storefront</span>
+        <h2>Indie Hacker Automation Kit</h2>
+        <p>
+          Full-Stack Indie Hacker &amp; Bounty Automation Starter Kit (v1.0) storefront with instant VietQR &amp; global checkout.
+        </p>
+        <ul class="feature-list">
+          <li><span class="check">✓</span><span>Vietcombank VietQR (<span class="mono">1041300418</span> · BUI DANG KHOI)</span></li>
+          <li><span class="check">✓</span><span>Global checkout links via Gumroad &amp; Ko-fi</span></li>
+          <li><span class="check">✓</span><span>Starter ($19 / 490k VND) &amp; Pro ($39 / 990k VND) tiers</span></li>
+        </ul>
+        <div class="card-meta">
+          <div class="route-hint">
+            <span>Route</span>
+            <code class="mono">./store/</code>
+          </div>
+          <a class="btn btn-emerald" href="./store/">Visit Storefront →</a>
+        </div>
+      </article>
+
+      <!-- Card 3: Direct ZIP Package -->
+      <article class="card">
+        <span class="card-badge badge-amber">Release Artifact v1.0</span>
+        <h2>Direct Kit Package (.zip)</h2>
+        <p>
+          Ready-to-run release archive containing zero-dependency Python CLI automation tools, templates, and launch checklists.
+        </p>
+        <ul class="feature-list">
+          <li><span class="check">✓</span><span>File: <span class="mono">IndieHacker-Automation-Kit-v1.0.zip</span></span></li>
+          <li><span class="check">✓</span><span>Zero third-party Python dependencies required</span></li>
+          <li><span class="check">✓</span><span>Includes proposal, cold email &amp; bounty launch templates</span></li>
+        </ul>
+        <div class="card-meta">
+          <div class="route-hint">
+            <span>Artifact</span>
+            <code class="mono">./downloads/IndieHacker-Automation-Kit-v1.0.zip</code>
+          </div>
+          <a class="btn btn-ghost" href="./downloads/IndieHacker-Automation-Kit-v1.0.zip" download>Download v1.0 Archive ↓</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="info-panel" aria-label="Creator and Payment Verification Details">
+      <div>
+        <h3>Creator &amp; Reviewer Verification</h3>
+        <p>
+          All modules in this static deployment are self-contained and compatible with GitHub Pages,
+          Vercel, Surge, or any CDN. Reviewers can test the live DevPulse AI analyzer directly at
+          <a href="./mvp/" style="color: var(--sky); text-decoration: underline;">./mvp/</a> and verify commercial readiness at
+          <a href="./store/" style="color: var(--emerald-bright); text-decoration: underline;">./store/</a>.
+        </p>
+      </div>
+      <div class="kv-grid">
+        <div class="kv-item">
+          <span class="kv-label">Creator</span>
+          <span class="kv-value">Dang Khoi (<span class="mono">@khoizsw2007</span>)</span>
+        </div>
+        <div class="kv-item">
+          <span class="kv-label">Contact</span>
+          <span class="kv-value"><a href="mailto:khoidangbui234@gmail.com">khoidangbui234@gmail.com</a></span>
+        </div>
+        <div class="kv-item">
+          <span class="kv-label">Vietcombank VietQR</span>
+          <span class="kv-value mono">VCB · 1041300418</span>
+        </div>
+        <div class="kv-item">
+          <span class="kv-label">Gumroad / Ko-fi</span>
+          <span class="kv-value">
+            <a href="https://khoizsw2007.gumroad.com/l/devpulse-kit" target="_blank" rel="noopener noreferrer" style="color: var(--sky);">Gumroad</a>
+            ·
+            <a href="https://ko-fi.com/khoizsw2007" target="_blank" rel="noopener noreferrer" style="color: var(--emerald-bright);">Ko-fi</a>
+          </span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 Dang Khoi (@khoizsw2007) · DevPulse AI &amp; Indie Hacker Hub</span>
+      <div class="footer-links">
+        <a href="./mvp/">MVP Demo</a>
+        <a href="./store/">Storefront</a>
+        <a href="./downloads/IndieHacker-Automation-Kit-v1.0.zip" download>Kit ZIP</a>
+        <a href="https://github.com/khoizsw2007/devpulse-copilot" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

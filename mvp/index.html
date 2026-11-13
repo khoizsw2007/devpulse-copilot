@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevPulse AI — Open-Source Bounty &amp; Grant Intelligence Hub</title>
+  <meta
+    name="description"
+    content="Analyze any GitHub repository or issue for bounty viability, generate implementation checklists, and calculate your startup's readiness for non-dilutive grants and cloud credits."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <span class="brand-mark" aria-hidden="true">⚡</span>
+        <span class="brand-text">DevPulse <span class="accent-text">AI</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#analyzer">Repo Analyzer</a>
+        <a href="#grant-calc">Grant Calculator</a>
+        <a href="#features">Features</a>
+        <a href="#architecture">Architecture</a>
+      </nav>
+      <div class="nav-actions">
+        <span class="api-pill" id="rateLimitBadge" title="GitHub Public API Status">
+          <span class="dot dot-live"></span>
+          <span>Browser-Native API</span>
+        </span>
+        <a href="#analyzer" class="btn btn-sm btn-primary">Launch Tool</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="badge badge-indigo">Zero-Backend SaaS MVP</span>
+            <span class="badge badge-emerald">100% Client-Side</span>
+          </div>
+          <h1>
+            Turn Open-Source Issues into
+            <span class="gradient-text">Shippable Bounties &amp; Non-Dilutive Grants</span>
+          </h1>
+          <p class="hero-subtitle">
+            DevPulse AI inspects live GitHub repositories, scores repository health, surfaces
+            bounty-ready issues with difficulty estimates and execution checklists, and matches
+            your project with up to <strong>$25,000+ in grants &amp; cloud credits</strong>.
+          </p>
+          <div class="hero-cta">
+            <a href="#analyzer" class="btn btn-primary btn-lg">Analyze a GitHub Repo</a>
+            <a href="#grant-calc" class="btn btn-secondary btn-lg">Check Grant Readiness</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-value">Live API</span>
+              <span class="stat-label">Real-time GitHub REST v3</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">$25k+</span>
+              <span class="stat-label">Mapped Grants &amp; Credits</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">0 Server</span>
+              <span class="stat-label">Runs anywhere via static HTML</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card glass-panel" aria-label="Product capability preview">
+          <div class="terminal-bar">
+            <span class="t-dot t-red"></span>
+            <span class="t-dot t-amber"></span>
+            <span class="t-dot t-green"></span>
+            <span class="terminal-title">devpulse-copilot :: live-telemetry</span>
+          </div>
+          <div class="hero-preview-body">
+            <div class="preview-metric-row">
+              <div class="preview-box">
+                <span class="preview-label">Repo Health Index</span>
+                <strong class="preview-num emerald">92 / 100</strong>
+                <span class="preview-sub">Active commits · MIT License</span>
+              </div>
+              <div class="preview-box">
+                <span class="preview-label">Grant Readiness</span>
+                <strong class="preview-num indigo">86% Match</strong>
+                <span class="preview-sub">Superteam · Founders Hub</span>
+              </div>
+            </div>
+            <div class="preview-checklist">
+              <div class="preview-check-title">Auto-Generated Implementation Plan</div>
+              <div class="check-line"><span class="check-tag">01</span> Reproduce issue locally &amp; isolate module scope</div>
+              <div class="check-line"><span class="check-tag">02</span> Patch core handler + preserve existing API contract</div>
+              <div class="check-line"><span class="check-tag">03</span> Add regression unit tests &amp; update CHANGELOG</div>
+              <div class="check-line"><span class="check-tag">04</span> Submit PR referencing issue # &amp; claim bounty</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live GitHub Repo & Issue Analyzer -->
+    <section id="analyzer" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-kicker">Module 01 · Live GitHub Intelligence</span>
+            <h2>GitHub Repo &amp; Issue Bounty Analyzer</h2>
+            <p>
+              Enter any <code>owner/repo</code>, GitHub repository URL, or direct Issue URL.
+              DevPulse queries the live GitHub API directly from your browser.
+            </p>
+          </div>
+          <div class="quick-examples">
+            <span class="quick-label">Quick try:</span>
+            <button type="button" class="chip-btn" data-repo="vercel/next.js">vercel/next.js</button>
+            <button type="button" class="chip-btn" data-repo="solana-labs/solana-web3.js">solana-labs/solana-web3.js</button>
+            <button type="button" class="chip-btn" data-repo="langchain-ai/langchain">langchain-ai/langchain</button>
+            <button type="button" class="chip-btn" data-repo="https://github.com/fastapi/fastapi/issues/1000">Issue URL Demo</button>
+          </div>
+        </div>
+
+        <div class="glass-panel analyzer-shell">
+          <form id="analyzerForm" class="analyzer-form" autocomplete="off">
+            <div class="input-group">
+              <label for="repoInput" class="sr-only">GitHub repository or issue URL</label>
+              <input
+                id="repoInput"
+                type="text"
+                placeholder="e.g. solana-labs/solana-web3.js or https://github.com/owner/repo/issues/42"
+                value="vercel/next.js"
+                required
+              />
+              <button type="submit" id="analyzeBtn" class="btn btn-primary">
+                <span class="btn-label">Analyze Repository</span>
+              </button>
+            </div>
+            <div class="form-meta-row">
+              <span class="hint-text">
+                Supports <code>owner/repo</code>, <code>https://github.com/owner/repo</code>, or <code>.../issues/123</code>.
+              </span>
+              <button type="button" id="loadSampleOfflineBtn" class="text-link-btn">
+                Load offline snapshot sample
+              </button>
+            </div>
+          </form>
+
+          <!-- Status Banner -->
+          <div id="analyzerStatus" class="status-banner hidden" role="status" aria-live="polite"></div>
+
+          <!-- Results Area -->
+          <div id="analyzerResults" class="analyzer-results hidden">
+            <!-- Repo Summary + Health Score -->
+            <div class="repo-overview-grid">
+              <div class="repo-card">
+                <div class="repo-header">
+                  <div>
+                    <a id="repoTitleLink" href="#" target="_blank" rel="noopener noreferrer" class="repo-title">
+                      owner/repo
+                    </a>
+                    <p id="repoDescription" class="repo-desc"></p>
+                  </div>
+                  <span id="repoLanguageBadge" class="badge badge-indigo">Language</span>
+                </div>
+                <div class="repo-metrics-grid">
+                  <div class="metric-tile">
+                    <span class="metric-label">Stars</span>
+                    <strong id="metricStars">0</strong>
+                  </div>
+                  <div class="metric-tile">
+                    <span class="metric-label">Forks</span>
+                    <strong id="metricForks">0</strong>
+                  </div>
+                  <div class="metric-tile">
+                    <span class="metric-label">Open Issues</span>
+                    <strong id="metricIssues">0</strong>
+                  </div>
+                  <div class="metric-tile">
+                    <span class="metric-label">License</span>
+                    <strong id="metricLicense">None</strong>
+                  </div>
+                  <div class="metric-tile">
+                    <span class="metric-label">Last Push</span>
+                    <strong id="metricUpdated">-</strong>
+                  </div>
+                  <div class="metric-tile">
+                    <span class="metric-label">Default Branch</span>
+                    <strong id="metricBranch">main</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="health-card">
+                <div class="health-top">
+                  <div>
+                    <span class="preview-label">Repository Health Score</span>
+                    <div class="health-score-line">
+                      <span id="healthScoreNum" class="health-score-num">0</span>
+                      <span class="health-score-max">/ 100</span>
+                    </div>
+                  </div>
+                  <span id="healthVerdictBadge" class="badge badge-emerald">Healthy</span>
+                </div>
+                <div class="progress-track" aria-hidden="true">
+                  <div id="healthProgressBar" class="progress-fill" style="width: 0%"></div>
+                </div>
+                <ul id="healthBreakdown" class="health-breakdown"></ul>
+              </div>
+            </div>
+
+            <!-- Target Issue Focus (shown when an Issue URL is pasted or an issue is clicked) -->
+            <div id="focusedIssuePanel" class="focused-issue-panel hidden"></div>
+
+            <!-- Issues List & Implementation Checklist Split -->
+            <div class="workspace-split">
+              <div class="issues-column">
+                <div class="column-header">
+                  <h3>Open Issues &amp; Bounty Candidates</h3>
+                  <div class="filter-pills" role="group" aria-label="Filter issues">
+                    <button type="button" class="filter-pill active" data-filter="all">All</button>
+                    <button type="button" class="filter-pill" data-filter="starter">Starter</button>
+                    <button type="button" class="filter-pill" data-filter="bounty">Bounty / Help</button>
+                  </div>
+                </div>
+                <div id="issuesList" class="issues-list"></div>
+              </div>
+
+              <div class="checklist-column">
+                <div class="column-header">
+                  <h3>AI Implementation Checklist</h3>
+                  <button type="button" id="copyChecklistBtn" class="btn btn-sm btn-secondary">
+                    Copy Markdown
+                  </button>
+                </div>
+                <div id="checklistTargetMeta" class="checklist-meta">
+                  Select any issue on the left to tailor the implementation plan.
+                </div>
+                <div id="implementationChecklist" class="checklist-box"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grant Readiness Calculator -->
+    <section id="grant-calc" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-kicker">Module 02 · Non-Dilutive Capital Matcher</span>
+            <h2>Grant &amp; Cloud Credit Readiness Calculator</h2>
+            <p>
+              Evaluate your developer project across stage, open-source license, ecosystem focus,
+              and demo readiness to unlock curated grant programs and exact next steps.
+            </p>
+          </div>
+        </div>
+
+        <div class="grant-grid">
+          <div class="glass-panel grant-controls">
+            <h3>Project Profile Inputs</h3>
+
+            <div class="control-group">
+              <label for="projectStage">Project Stage</label>
+              <select id="projectStage">
+                <option value="idea">Idea / Technical Spec Only</option>
+                <option value="mvp" selected>Working MVP / Interactive Prototype</option>
+                <option value="live">Live Product with Early Users / Traction</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="ossStatus">Open-Source Status</label>
+              <select id="ossStatus">
+                <option value="closed">Closed Source / Private Repo</option>
+                <option value="oss_mit" selected>Public Open-Source (MIT / Apache-2.0)</option>
+                <option value="oss_community">Public OSS + Contributors / Active Releases</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="ecosystemFocus">Primary Ecosystem Focus</label>
+              <select id="ecosystemFocus">
+                <option value="ai_devtools" selected>AI Agents &amp; Developer Tools</option>
+                <option value="web3_solana">Web3 / Solana / DeFi / On-Chain Tooling</option>
+                <option value="hybrid_ai_web3">Hybrid AI + Web3 Bounty Infrastructure</option>
+                <option value="saas_general">General B2B SaaS / Cloud Infra</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="demoStatus">Live Demo &amp; Pitch Readiness</label>
+              <select id="demoStatus">
+                <option value="none">No Demo or Docs Yet</option>
+                <option value="repo_only">GitHub Repo + Architecture README</option>
+                <option value="live_url" selected>Live Public URL + 2-Min Walkthrough</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <div class="range-label-row">
+                <label for="weeklyHours">Weekly Build Commitment</label>
+                <span id="weeklyHoursVal" class="mono-val">20 hrs/wk</span>
+              </div>
+              <input id="weeklyHours" type="range" min="5" max="60" step="5" value="20" />
+            </div>
+
+            <div class="control-group">
+              <div class="range-label-row">
+                <label for="fundingTarget">Target Non-Dilutive Funding / Credits</label>
+                <span id="fundingTargetVal" class="mono-val">$10,000</span>
+              </div>
+              <input id="fundingTarget" type="range" min="1000" max="50000" step="1000" value="10000" />
+            </div>
+
+            <div class="checkbox-row">
+              <label class="toggle-item">
+                <input type="checkbox" id="hasVideoPitch" checked />
+                <span>Have 2-min Loom / YouTube demo video</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="hasRoadmap" checked />
+                <span>Have 90-day milestone &amp; budget breakdown</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="glass-panel grant-output">
+            <div class="readiness-header">
+              <div>
+                <span class="preview-label">Grant Readiness Score</span>
+                <div class="readiness-score-row">
+                  <strong id="grantScoreNum" class="readiness-score">84%</strong>
+                  <span id="grantTierBadge" class="badge badge-emerald">Grant-Ready MVP</span>
+                </div>
+              </div>
+              <div class="est-funding-box">
+                <span class="preview-label">Estimated Unlockable Value</span>
+                <strong id="estimatedFundingRange">$12,000 – $35,000+</strong>
+              </div>
+            </div>
+
+            <div class="progress-track" aria-hidden="true">
+              <div id="grantProgressBar" class="progress-fill" style="width: 84%"></div>
+            </div>
+
+            <div id="readinessActionTips" class="readiness-tips"></div>
+
+            <h3 class="matched-heading">Recommended Grant &amp; Credit Programs</h3>
+            <div id="matchedGrantsList" class="matched-grants-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature Cards -->
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-header centered">
+          <span class="section-kicker">Why DevPulse AI</span>
+          <h2>Built for Solo Builders, Bounty Hunters &amp; OSS Founders</h2>
+          <p>
+            No account creation, no API key lock-in, and zero infrastructure cost — deployable to
+            GitHub Pages, Surge, or Vercel in under 60 seconds.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card glass-panel">
+            <div class="feature-icon">🔍</div>
+            <h3>Live Repo Health Scoring</h3>
+            <p>
+              Evaluates star velocity, issue-to-star ratio, recent commit freshness, and OSS license
+              compliance to spot high-trust repositories before you invest coding hours.
+            </p>
+          </article>
+          <article class="feature-card glass-panel">
+            <div class="feature-icon">🎯</div>
+            <h3>Bounty &amp; Difficulty Triage</h3>
+            <p>
+              Automatically classifies open GitHub issues by label signals (<code>good first issue</code>,
+              <code>bounty</code>, <code>help wanted</code>) and estimates scope &amp; effort.
+            </p>
+          </article>
+          <article class="feature-card glass-panel">
+            <div class="feature-icon">✅</div>
+            <h3>Actionable PR Checklists</h3>
+            <p>
+              Generates copy-ready Markdown implementation checklists tailored to any selected issue
+              so you can go from discovery to merged Pull Request faster.
+            </p>
+          </article>
+          <article class="feature-card glass-panel">
+            <div class="feature-icon">💸</div>
+            <h3>Grant Eligibility Engine</h3>
+            <p>
+              Maps your MVP maturity, OSS license, and AI/Web3 stack directly to Microsoft Founders Hub,
+              Solana Superteam, GitHub Sponsors, and global hackathons.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Overview -->
+    <section id="architecture" class="section">
+      <div class="container">
+        <div class="glass-panel arch-panel">
+          <div class="arch-copy">
+            <span class="section-kicker">System Architecture</span>
+            <h2>100% Static Edge Architecture</h2>
+            <p>
+              DevPulse AI runs entirely inside the browser runtime with zero backend maintenance,
+              zero database bills, and instant global CDN portability.
+            </p>
+          </div>
+          <div class="arch-flow">
+            <div class="arch-node">
+              <span class="arch-step">01</span>
+              <strong>Browser UI</strong>
+              <span>Semantic HTML5 + CSS Grid + Vanilla ES6</span>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">→</div>
+            <div class="arch-node">
+              <span class="arch-step">02</span>
+              <strong>GitHub REST v3</strong>
+              <span>Direct CORS fetch for Repos &amp; Issues</span>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">→</div>
+            <div class="arch-node">
+              <span class="arch-step">03</span>
+              <strong>Scoring Engine</strong>
+              <span>Health Index + Difficulty + Grant Matching</span>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">→</div>
+            <div class="arch-node">
+              <span class="arch-step">04</span>
+              <strong>Static Hosting</strong>
+              <span>GitHub Pages / Vercel / Surge CDN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">⚡</span>
+          <span class="brand-text">DevPulse <span class="accent-text">AI</span></span>
+        </div>
+        <p class="footer-note">
+          Open-Source Bounty &amp; Grant Intelligence Hub · Pure Browser SaaS MVP
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="#analyzer">Repo Analyzer</a>
+        <a href="#grant-calc">Grant Calculator</a>
+        <a href="https://foundershub.startups.microsoft.com/" target="_blank" rel="noopener noreferrer">Founders Hub</a>
+        <a href="https://superteam.fun/" target="_blank" rel="noopener noreferrer">Superteam Grants</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

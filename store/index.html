@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Full-Stack Indie Hacker & Bounty Automation Starter Kit (v1.0)</title>
+  <meta name="description" content="Bộ công cụ Python CLI không phụ thuộc thư viện ngoài + Template Proposal, Cold Email & Launch Checklist dành cho Indie Hacker & Freelancer." />
+  <style>
+    :root {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-2: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --indigo: #6366f1;
+      --amber: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at top right, #1e1b4b 0%, var(--bg) 45%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    header {
+      border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+      padding: 16px 0;
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      background: rgba(11, 17, 32, 0.85);
+      z-index: 20;
+    }
+    .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .brand { font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+    .badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.14);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .hero { padding: 56px 0 40px; text-align: center; }
+    .hero h1 {
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15;
+      margin: 16px auto;
+      max-width: 820px;
+      letter-spacing: -0.025em;
+    }
+    .hero p.lead {
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 auto 28px;
+      font-size: 1.08rem;
+    }
+    .en-note {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.14);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #c7d2fe;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+    .cta-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: 0.18s ease;
+      font-size: 0.96rem;
+    }
+    .btn-primary { background: var(--accent); color: #052e16; }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; text-decoration: none; }
+    .btn-secondary { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+    .btn-secondary:hover { border-color: #64748b; text-decoration: none; }
+    .btn-sm { padding: 7px 12px; font-size: 0.82rem; border-radius: 8px; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin: 32px 0; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; margin: 28px 0; }
+    .card {
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .card h3 { margin-top: 0; font-size: 1.1rem; }
+    .card p { color: var(--muted); font-size: 0.94rem; }
+    code, pre {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    pre {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.84rem;
+      color: #e2e8f0;
+      text-align: left;
+    }
+    section { padding: 28px 0; }
+    h2.section-title { font-size: 1.55rem; margin-bottom: 8px; letter-spacing: -0.015em; }
+    .section-sub { color: var(--muted); margin-top: 0; }
+
+    .tier-card { position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+    .tier-card.featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35); }
+    .price-tag { font-size: 2rem; font-weight: 800; margin: 8px 0; }
+    .price-sub { color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+    ul.check { list-style: none; padding: 0; margin: 16px 0; }
+    ul.check li { margin-bottom: 8px; padding-left: 22px; position: relative; color: #cbd5e1; font-size: 0.93rem; }
+    ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+    .checkout-box {
+      background: linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(15, 23, 42, 0.98));
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 26px;
+    }
+    .tier-switch { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+    .tier-pill {
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .tier-pill.active {
+      border-color: var(--accent);
+      background: rgba(16, 185, 129, 0.18);
+      color: #6ee7b7;
+    }
+    .qr-wrap {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+    .qr-wrap img { width: 100%; max-width: 280px; height: auto; display: block; margin: 0 auto; border-radius: 8px; }
+    .setup-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px dashed rgba(245, 158, 11, 0.55);
+      border-radius: 12px;
+      padding: 18px;
+      color: #fde68a;
+      font-size: 0.92rem;
+    }
+    .kv-list { display: grid; gap: 10px; margin-top: 14px; }
+    .kv-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+    }
+    .kv-row strong { color: #f8fafc; }
+    .intl-box { display: flex; flex-direction: column; gap: 12px; }
+    .btn-gumroad { background: #ff90e8; color: #111827; }
+    .btn-gumroad:hover { background: #f472b6; color: #111827; text-decoration: none; }
+    .btn-kofi { background: #29abe0; color: #082f49; }
+    .btn-kofi:hover { background: #38bdf8; color: #082f49; text-decoration: none; }
+    .muted-hint { color: var(--muted); font-size: 0.84rem; }
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+      padding: 26px 0 40px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <span>⚡</span>
+        <span id="nav-product-name">Indie Hacker &amp; Bounty Automation Kit v1.0</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span class="badge">Zero Dependencies · Python 3.9+</span>
+        <a href="#checkout" class="btn btn-primary btn-sm">Mua ngay / Get Kit</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <span class="badge">Digital Product Bundle · Instant ZIP Download</span>
+      <h1>Săn Bounty GitHub, Định Giá Freelance &amp; Chốt Client Nhanh Gấp 5 Lần</h1>
+      <p class="lead">
+        Bộ <strong>Full-Stack Indie Hacker &amp; Bounty Automation Starter Kit (v1.0)</strong> gồm 3 công cụ Python CLI chạy thẳng bằng thư viện chuẩn (không cần <code>pip install</code>) + 3 bộ template Proposal, Cold Email &amp; SaaS Launch Checklist thực chiến.
+      </p>
+      <div class="en-note">
+        <strong>English Summary:</strong> Built for indie hackers &amp; solo developers — monitor paid GitHub bounties from your terminal, calculate tax-aware hourly/fixed freelance quotes with client ROI payback, generate clean Markdown invoices/proposals, and ship with battle-tested outreach &amp; launch templates.
+      </div>
+      <div class="cta-row">
+        <a href="#checkout" class="btn btn-primary">Thanh toán VietQR / Quốc tế →</a>
+        <a href="#whats-inside" class="btn btn-secondary">Xem chi tiết bộ kit</a>
+      </div>
+    </section>
+
+    <section id="whats-inside">
+      <h2 class="section-title">Bên trong bộ Kit có gì? (What's Inside)</h2>
+      <p class="section-sub">Tải về 1 file <code>IndieHacker-Automation-Kit-v1.0.zip</code> — mở ra là chạy ngay trên Windows, macOS, Linux.</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>1. <code>bounty_monitor.py</code></h3>
+          <p>Quét GitHub Search API tìm issue có thưởng (<code>bounty</code>, <code>algora</code>, <code>paid</code>) lọc theo ngôn ngữ, độ mới và số comment ít cạnh tranh. Có chế độ <code>--demo</code> test offline và xuất Terminal / JSON / Markdown.</p>
+          <pre>python scripts/bounty_monitor.py \
+  --labels bounty --language python \
+  --max-comments 4 --format markdown</pre>
+        </div>
+
+        <div class="card">
+          <h3>2. <code>freelance_pricing_calc.py</code></h3>
+          <p>Quy đổi mục tiêu thu nhập ròng + thuế + chi phí + giờ không tính tiền thành giá giờ chuẩn, báo giá trọn gói 3 mức (Essential / Recommended / Priority) và ROI hoàn vốn cho khách.</p>
+          <pre>python scripts/freelance_pricing_calc.py \
+  --target-income 72000 --tax-rate 0.22 \
+  --project-hours 40 --client-monthly-gain 4000</pre>
+        </div>
+
+        <div class="card">
+          <h3>3. <code>proposal_invoice_gen.py</code></h3>
+          <p>Sinh Invoice hoặc Proposal chuẩn Markdown sạch đẹp từ file JSON hoặc tham số dòng lệnh, tự tính chiết khấu, thuế và tiền cọc 50% — sẵn sàng xuất PDF gửi khách.</p>
+          <pre>python scripts/proposal_invoice_gen.py \
+  --mode proposal --config job.json \
+  --out proposal_acme.md</pre>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>📄 Freelance Proposal Template</h3>
+          <p>Mẫu Proposal 3 gói neo giá (Anchor Pricing) kèm mục Out-of-Scope giúp chống khách sửa yêu cầu ngoài hợp đồng.</p>
+        </div>
+        <div class="card">
+          <h3>✉️ Cold Outreach Swipe File</h3>
+          <p>5 kịch bản Email/DM ngắn gọn dưới 120 từ để pitch maintainer bounty, founder SaaS và agency đang thiếu nhân lực.</p>
+        </div>
+        <div class="card">
+          <h3>🚀 SaaS Launch Checklist</h3>
+          <p>Checklist 6 giai đoạn từ kiểm thử thanh toán, bảo mật, SEO OpenGraph tới phân phối trên Product Hunt, Reddit &amp; X.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <h2 class="section-title">Bảng Giá (Simple One-Time Pricing)</h2>
+      <p class="section-sub">Thanh toán 1 lần, sở hữu mã nguồn và toàn bộ template mãi mãi.</p>
+      <div class="grid-2">
+        <div class="card tier-card">
+          <div>
+            <span class="badge">Starter (Solo)</span>
+            <div class="price-tag">490.000đ <span class="price-sub">/ $19 USD</span></div>
+            <p>Phù hợp cho freelancer và indie hacker bắt đầu tự động hóa quy trình tìm việc &amp; báo giá.</p>
+            <ul class="check">
+              <li>Trọn bộ 3 Python CLI tools (<code>bounty_monitor</code>, <code>freelance_pricing_calc</code>, <code>proposal_invoice_gen</code>)</li>
+              <li>3 bộ Markdown Templates + <code>README_BUYER_GUIDE.md</code></li>
+              <li>Commercial Single-Seat License dùng cho không giới hạn dự án khách hàng</li>
+            </ul>
+          </div>
+          <a href="#checkout" onclick="selectTier('starter')" class="btn btn-secondary">Chọn gói Starter (490k / $19)</a>
+        </div>
+
+        <div class="card tier-card featured">
+          <div>
+            <span class="badge">Pro Bundle · Best Value</span>
+            <div class="price-tag">990.000đ <span class="price-sub">/ $39 USD</span></div>
+            <p>Dành cho builder muốn nhận các bản cập nhật v1.x miễn phí và hỗ trợ kỹ thuật trực tiếp.</p>
+            <ul class="check">
+              <li>Bao gồm toàn bộ quyền lợi gói Starter</li>
+              <li>Miễn phí toàn bộ bản cập nhật v1.x (scripts &amp; templates mới)</li>
+              <li>Ưu tiên hỗ trợ cài đặt &amp; tùy biến qua email từ tác giả</li>
+            </ul>
+          </div>
+          <a href="#checkout" onclick="selectTier('pro')" class="btn btn-primary">Chọn gói Pro Bundle (990k / $39)</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="checkout">
+      <h2 class="section-title">Thanh Toán &amp; Nhận Bộ Kit Ngay</h2>
+      <p class="section-sub">Hỗ trợ chuyển khoản VietQR tức thì (Việt Nam) hoặc thẻ/PayPal qua Gumroad &amp; Ko-fi (Quốc tế).</p>
+
+      <div class="grid-2">
+        <!-- VietQR Checkout -->
+        <div class="checkout-box">
+          <h3 style="margin-top:0;">🇻🇳 Chuyển Khoản Nhanh Qua VietQR</h3>
+          <div class="tier-switch">
+            <button type="button" id="pill-starter" class="tier-pill active" onclick="selectTier('starter')">Starter — 490.000đ</button>
+            <button type="button" id="pill-pro" class="tier-pill" onclick="selectTier('pro')">Pro Bundle — 990.000đ</button>
+          </div>
+
+          <div id="vietqr-active" style="display:none;">
+            <div class="qr-wrap">
+              <img id="vietqr-img" src="" alt="VietQR Payment QR Code" />
+              <div style="font-size:0.82rem;color:#334155;margin-top:8px;">
+                Quét bằng App Ngân hàng bất kỳ (tự điền số tiền &amp; nội dung)
+              </div>
+            </div>
+
+            <div class="kv-list">
+              <div class="kv-row">
+                <span>Ngân hàng: <strong id="bank-name-val">-</strong></span>
+              </div>
+              <div class="kv-row">
+                <span>Số tài khoản: <strong id="bank-stk-val">-</strong></span>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('bank-stk-val', this)">Copy STK</button>
+              </div>
+              <div class="kv-row">
+                <span>Chủ tài khoản: <strong id="bank-holder-val">-</strong></span>
+              </div>
+              <div class="kv-row">
+                <span>Số tiền: <strong id="bank-amount-val">490,000 VND</strong></span>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="copyRawAmount(this)">Copy tiền</button>
+              </div>
+              <div class="kv-row">
+                <span>Nội dung CK: <strong id="bank-memo-val">INDEKIT</strong></span>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('bank-memo-val', this)">Copy ND</button>
+              </div>
+            </div>
+            <p class="muted-hint" style="margin-top:12px;">
+              Sau khi chuyển khoản, gửi ảnh biên lai kèm email nhận file tới <strong id="vietqr-support-email">-</strong> để nhận link tải <code>IndieHacker-Automation-Kit-v1.0.zip</code> trong vòng 5–15 phút.
+            </p>
+          </div>
+
+          <div id="vietqr-placeholder" class="setup-warning">
+            <strong>⚠️ Chưa cấu hình số tài khoản VietQR thực tế</strong>
+            <p style="margin:8px 0;color:#fef3c7;">
+              Hiện tại <code>d:\money\config\profile.json</code> vẫn đang giữ giá trị mẫu (<code>SO_TAI_KHOAN_CUA_BAN</code>). Để bật mã QR chuyển khoản thật:
+            </p>
+            <ol style="margin:6px 0 0 18px;padding:0;color:#fef3c7;">
+              <li>Mở <code>d:\money\config\profile.json</code></li>
+              <li>Điền <code>bank_name</code> (VD: <code>Vietcombank</code>, <code>MB</code>, <code>Techcombank</code>), <code>account_number</code>, và <code>account_holder</code> (IN HOA không dấu)</li>
+              <li>Chạy lại <code>python d:\money\track3-digital-product\packager.py</code> và tải lại trang này!</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- International Checkout -->
+        <div class="checkout-box intl-box">
+          <h3 style="margin-top:0;">🌍 International Checkout (Card / PayPal / Apple Pay)</h3>
+          <p style="color:var(--muted);margin-top:0;">
+            Thanh toán tự động bằng thẻ Visa/Mastercard hoặc PayPal và tải ngay file <code>IndieHacker-Automation-Kit-v1.0.zip</code>.
+          </p>
+
+          <a id="gumroad-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-gumroad">
+            Mua trên Gumroad ($19 / $39) →
+          </a>
+          <a id="kofi-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-kofi">
+            Mua / Ủng hộ trên Ko-fi →
+          </a>
+
+          <div id="intl-placeholder-note" class="muted-hint" style="display:none;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.35);padding:10px 12px;border-radius:10px;color:#fde68a;">
+            Lưu ý cho chủ shop: Link Gumroad / Ko-fi hiện vẫn là URL mẫu trong <code>config/profile.json</code>. Hãy cập nhật link shop thật rồi chạy lại <code>packager.py</code>.
+          </div>
+
+          <div class="card" style="margin-top:auto;background:#0f172a;">
+            <strong style="display:block;margin-bottom:6px;">Thông tin tác giả &amp; Bảo hành</strong>
+            <div class="muted-hint">
+              Creator: <span id="creator-name">-</span> (<span id="creator-social">-</span>)<br />
+              Support: <a id="creator-email-link" href="#">-</a><br />
+              GitHub: <a id="creator-github-link" href="#" target="_blank" rel="noopener noreferrer">-</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div>© <span id="footer-year">2026</span> <span id="footer-creator">Indie Creator</span> · <span id="footer-project">Starter Kit v1.0</span></div>
+    <div>Built with zero-bloat HTML &amp; Python Standard Library</div>
+  </footer>
+
+  <script src="./config.js"></script>
+  <script>
+    const DEFAULT_CFG = {
+      productTitle: "Full-Stack Indie Hacker & Bounty Automation Starter Kit (v1.0)",
+      creator: {
+        fullName: "YOUR_NAME",
+        email: "your.email@example.com",
+        githubUsername: "your-github-username",
+        socialHandle: "@your_handle",
+        projectName: "DevPulse AI & Bounty Copilot",
+        projectLiveUrl: ""
+      },
+      pricing: {
+        starter: { usd: 19, vnd: 490000, addInfo: "INDEKIT" },
+        pro: { usd: 39, vnd: 990000, addInfo: "INDEKITPRO" }
+      },
+      vietqr: {
+        configured: false,
+        bankId: "",
+        bankName: "",
+        accountNumber: "SO_TAI_KHOAN_CUA_BAN",
+        accountHolder: "TEN_CHU_TAI_KHOAN_IN_HOA"
+      },
+      paymentLinks: {
+        gumroadUrl: "https://yourname.gumroad.com/l/devpulse-kit",
+        kofiUrl: "https://ko-fi.com/yourname"
+      }
+    };
+
+    const cfg = window.STOREFRONT_CONFIG || DEFAULT_CFG;
+    let activeTier = "starter";
+
+    function formatVnd(num) {
+      return Number(num).toLocaleString("vi-VN") + " VND";
+    }
+
+    function buildVietQrUrl(tierKey) {
+      const tier = cfg.pricing[tierKey];
+      const vq = cfg.vietqr;
+      const bankId = encodeURIComponent(vq.bankId);
+      const acct = encodeURIComponent(vq.accountNumber.trim());
+      const holder = encodeURIComponent(vq.accountHolder.trim());
+      const memo = encodeURIComponent(tier.addInfo);
+      return `https://img.vietqr.io/image/${bankId}-${acct}-compact2.png?amount=${tier.vnd}&addInfo=${memo}&accountName=${holder}`;
+    }
+
+    function selectTier(tierKey) {
+      activeTier = tierKey === "pro" ? "pro" : "starter";
+      document.getElementById("pill-starter").classList.toggle("active", activeTier === "starter");
+      document.getElementById("pill-pro").classList.toggle("active", activeTier === "pro");
+
+      const tier = cfg.pricing[activeTier];
+      document.getElementById("bank-amount-val").textContent = formatVnd(tier.vnd);
+      document.getElementById("bank-memo-val").textContent = tier.addInfo;
+
+      if (cfg.vietqr && cfg.vietqr.configured) {
+        const img = document.getElementById("vietqr-img");
+        img.src = buildVietQrUrl(activeTier);
+      }
+    }
+
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const prev = btn.textContent;
+        btn.textContent = "Đã copy!";
+        setTimeout(() => { btn.textContent = prev; }, 1400);
+      });
+    }
+
+    function copyRawAmount(btn) {
+      const amt = String(cfg.pricing[activeTier].vnd);
+      navigator.clipboard.writeText(amt).then(() => {
+        const prev = btn.textContent;
+        btn.textContent = "Đã copy!";
+        setTimeout(() => { btn.textContent = prev; }, 1400);
+      });
+    }
+
+    function initStorefront() {
+      const c = cfg.creator || {};
+      const vq = cfg.vietqr || {};
+      const links = cfg.paymentLinks || {};
+
+      document.getElementById("creator-name").textContent = c.fullName || "-";
+      document.getElementById("creator-social").textContent = c.socialHandle || "-";
+      document.getElementById("vietqr-support-email").textContent = c.email || "-";
+      const emailLink = document.getElementById("creator-email-link");
+      emailLink.textContent = c.email || "-";
+      emailLink.href = c.email ? `mailto:${c.email}` : "#";
+
+      const ghLink = document.getElementById("creator-github-link");
+      ghLink.textContent = c.githubUsername ? `@${c.githubUsername}` : "-";
+      ghLink.href = c.githubUsername ? `https://github.com/${c.githubUsername}` : "#";
+
+      document.getElementById("footer-creator").textContent = c.fullName || "Indie Creator";
+      document.getElementById("footer-project").textContent = c.projectName || cfg.productTitle;
+      document.getElementById("footer-year").textContent = String(new Date().getFullYear());
+
+      const gumroadBtn = document.getElementById("gumroad-btn");
+      const kofiBtn = document.getElementById("kofi-btn");
+      gumroadBtn.href = links.gumroadUrl || "#";
+      kofiBtn.href = links.kofiUrl || "#";
+
+      if (
+        (links.gumroadUrl && links.gumroadUrl.includes("yourname")) ||
+        (links.kofiUrl && links.kofiUrl.includes("yourname"))
+      ) {
+        document.getElementById("intl-placeholder-note").style.display = "block";
+      }
+
+      if (vq.configured) {
+        document.getElementById("vietqr-active").style.display = "block";
+        document.getElementById("vietqr-placeholder").style.display = "none";
+        document.getElementById("bank-name-val").textContent = `${vq.bankName} (${vq.bankId})`;
+        document.getElementById("bank-stk-val").textContent = vq.accountNumber;
+        document.getElementById("bank-holder-val").textContent = vq.accountHolder;
+
+        const img = document.getElementById("vietqr-img");
+        img.onerror = () => {
+          document.getElementById("vietqr-active").style.display = "none";
+          document.getElementById("vietqr-placeholder").style.display = "block";
+        };
+      } else {
+        document.getElementById("vietqr-active").style.display = "none";
+        document.getElementById("vietqr-placeholder").style.display = "block";
+      }
+
+      selectTier("starter");
+    }
+
+    initStorefront();
+  </script>
+</body>
+</html>
